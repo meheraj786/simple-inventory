@@ -4,102 +4,109 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inventory </title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="sidebar">
-    <ul>
-      <li> <a href="#products">Products</a></li>
-      <li> <a href="#customers">Customers</a></li>
-      <li> <a href="#income">Income</a></li>
-    </ul>
-  </div>
-  <div id="header">
-    <h1>A simple Inventory</h1>
-    <div class="bar">
-      <div class="bar-item">
-        <p>Products</p>
-        <h2 class="products-number">100</h2>
-      </div>
-      <div class="bar-item">
-        <p>Customers</p>
-        <h2 class="customers-number">200</h2>
-      </div>
-      <div class="bar-item">
-        <p>Income</p>
-        <h2 class="income">300</h2>
+  <div id="main">
+    <div id="sidebar">
+      <ul>
+        <li> <a href="#products">Products</a></li>
+        <li> <a href="#customers">Customers</a></li>
+        <li> <a href="#income">Income</a></li>
+      </ul>
+    </div>
+    <div id="header">
+      <h1>A simple Inventory</h1>
+      <div class="bar">
+        <div class="bar-item">
+          <p>Products</p>
+          <h2 class="products-number">100</h2>
+        </div>
+        <div class="bar-item">
+          <p>Customers</p>
+          <h2 class="customers-number">200</h2>
+        </div>
+        <div class="bar-item">
+          <p>Income</p>
+          <h2 class="income">300</h2>
+        </div>
       </div>
     </div>
-  </div>
-  <div id="dashboard">
-    <h2>Dashboard</h2>
-    <div class="products-add-dashboard">
-      <div class="products-add">
-        <h3>Add Product</h3>
-        <form id="add-product-form">
-          <input type="text" id="product-name" placeholder="Product Name" required>
-          <input type="number" id="product-price" placeholder="Price" required>
-          <input type="number" id="product-quantity" placeholder="Quantity" required>
-          <button type="submit">Add Product</button>
-        </form>
-      </div>
-      <div class="customer-add">
-        <h3>Add Customer</h3>
-        <form id="add-customer-form">
-          <input type="text" id="customer-name" placeholder="Customer Name" required>
-          <input type="text" id="customer-company" placeholder="Company Name" required>
-          <input type="email" id="customer-email" placeholder="Email" required>
-          <input type="tel" id="customer-phone" placeholder="Phone Number" required>
-          <button type="submit">Add Customer</button>
-        </form>
+    <div id="dashboard">
+      <h2>Dashboard</h2>
+      <div class="products-add-dashboard">
+        <div class="products-add">
+          <h3>Add Product</h3>
+          <form id="add-product-form">
+            <input type="text" id="product-name" placeholder="Product Name" required>
+            <input type="number" id="product-price" placeholder="Price" required>
+            <input type="number" id="product-quantity" placeholder="Quantity" required>
+            <button type="submit">Add Product</button>
+          </form>
+        </div>
+        <div class="customer-add">
+          <h3>Add Customer</h3>
+          <form id="add-customer-form">
+            <input type="text" id="customer-name" placeholder="Customer Name" required>
+            <input type="text" id="customer-company" placeholder="Company Name" required>
+            <input type="email" id="customer-email" placeholder="Email" required>
+            <input type="tel" id="customer-phone" placeholder="Phone Number" required>
+            <button type="submit">Add Customer</button>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-  <div id="products">
-    <h2>Products</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Product Name</th>
-          <th>Price</th>
-          <th>Quantity</th>
-        </tr>
-      </thead>
-      <tbody id="product-list">
-        <!-- Product rows will be inserted here -->
-        <!-- sample products  -->
-        <tr>
-          <td>Product 1</td>
-          <td>$10</td>
-          <td>100</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div id="customers">
-    <h2>Customers</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Customer Name</th>
-          <th>Company</th>
-          <th>Email</th>
-          <th>Phone</th>
-          <th>Quantity</th>
-        </tr>
-      </thead>
-      <tbody id="product-list">
-        <!-- Product rows will be inserted here -->
-        <!-- sample products  -->
-        <tr>
-          <td>Customer 1</td>
-          <td>Comp</td>
-          <td>comp@mal.com</td>
-          <td>973872035</td>
-          <td>10</td>
-        </tr>
-      </tbody>
-    </table>
+    <div id="products">
+      <h2>Products</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody id="product-list">
+          <!-- Product rows will be inserted here -->
+          <!-- sample products  -->
+          <tr>
+            <td>Product 1</td>
+            <td>$10</td>
+            <td>100</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="customers">
+      <h2>Customers</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Customer Name</th>
+            <th>Company</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody id="product-list">
+          <!-- Product rows will be inserted here -->
+          <!-- sample products  -->
+          <tr>
+            <td>Customer 1</td>
+            <td>Comp</td>
+            <td>comp@mal.com</td>
+            <td>973872035</td>
+            <td>10</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+
   </div>
 
   <script src="script.js"></script>
