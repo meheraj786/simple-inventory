@@ -119,6 +119,7 @@ h1{
   background-color: var(--light-green);
   color: var(--primary);
 }
+
 .cross-btn{
   position: absolute;
   top: 20px;
@@ -128,4 +129,23 @@ h1{
   border: 1px solid white;
   padding: 10px;
   border-radius: 10px;
+}
+#dashboard{
+  padding: 100px 0px;
+}
+h2{
+  margin: 10px 0;
+  color: var(--primary);
+}
+h3{
+  margin: 10px 0;
+}
+#products{
+  display: none;
+}
+#customers{
+  display: none;
+}
+table{
+  margin-top: 20px;
 }
