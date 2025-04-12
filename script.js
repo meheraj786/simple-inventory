@@ -2,8 +2,10 @@ const sidebar = document.querySelector('#sidebar');
 const closeBtn = document.querySelector('.cross-btn');
 const productsBtn = document.querySelector('.products-btn');
 const customersBtn = document.querySelector('.customer-btn');
+const incomeBtn = document.querySelector('.income-btn');
 const products = document.querySelector('#products');
 const customers = document.querySelector('#customers');
+const incomeSection = document.querySelector('#income');
 
 const productNameInput = document.querySelector('#product-name');
 const productPriceInput = document.querySelector('#product-price');
@@ -14,6 +16,10 @@ const customerEmailInput = document.querySelector('#customer-email');
 const customerPhoneInput = document.querySelector('#customer-phone');
 const customerNameInput = document.querySelector('#customer-name');
 
+const incomeProductInput = document.querySelector('#income-product-name');
+const incomePriceInput = document.querySelector('#income-price');
+const incomeQuantityInput = document.querySelector('#income-quantity');
+
 class Product {
   constructor(name, price, quantity) {
     this.name = name;
@@ -21,6 +27,7 @@ class Product {
     this.quantity = quantity;
   }
 }
+
 class Customer {
   constructor(name, company, email, phone) {
     this.name = name;
@@ -51,6 +58,7 @@ class ProductManager {
 
   loadProducts() {
     const productList = document.querySelector('#product-list');
+    productList.innerHTML = '';
     this.products.forEach(product => {
       const productItem = document.createElement('tr');
       productItem.innerHTML = `<td>${product.name}</td><td>$${product.price}</td><td>${product.quantity}</td>`;
@@ -81,6 +89,7 @@ class CustomerManager {
 
   loadCustomers() {
     const customerList = document.querySelector('#customer-list');
+    customerList.innerHTML = '';
     this.customers.forEach(customer => {
       const customerItem = document.createElement('tr');
       customerItem.innerHTML = `<td>${customer.name}</td><td>${customer.company}</td><td>${customer.email}</td><td>${customer.phone}</td><td>—</td>`;
@@ -90,13 +99,58 @@ class CustomerManager {
   }
 }
 
+class Income {
+  constructor(product, price, quantity) {
+    this.product = product;
+    this.price = price;
+    this.quantity = quantity;
+  }
+
+  getTotal() {
+    return this.price * this.quantity;
+  }
+}
+
+class IncomeManager {
+  constructor() {
+    this.incomes = JSON.parse(localStorage.getItem('incomes')) || [];
+  }
+
+  addSale(product, price, quantity) {
+    const income = new Income(product, price, quantity);
+    this.incomes.push(income);
+    this.saveToLocalStorage();
+  }
+
+  saveToLocalStorage() {
+    localStorage.setItem('incomes', JSON.stringify(this.incomes));
+  }
+
+  loadIncomes() {
+    const incomeList = document.querySelector('#income-list');
+    let totalIncome = 0;
+    incomeList.innerHTML = '';
+    this.incomes.forEach(income => {
+      const incomeItem = document.createElement('tr');
+      const total = income.getTotal();
+      totalIncome += total;
+      incomeItem.innerHTML = `<td>${income.product}</td><td>$${income.price}</td><td>${income.quantity}</td><td>$${total}</td>`;
+      incomeList.appendChild(incomeItem);
+    });
+    document.querySelector('.income').textContent = `$${totalIncome}`;
+  }
+}
+
+// Init
 const productManager = new ProductManager();
 const customerManager = new CustomerManager();
+const incomeManager = new IncomeManager();
 
-// Load products and customers from local storage on page load
+// Page Load
 document.addEventListener('DOMContentLoaded', function () {
   productManager.loadProducts();
   customerManager.loadCustomers();
+  incomeManager.loadIncomes();
 });
 
 function addProduct() {
@@ -106,27 +160,20 @@ function addProduct() {
 
   if (name && !isNaN(price) && !isNaN(quantity)) {
     productManager.addProduct(name, price, quantity);
+    productManager.loadProducts();
 
-    const productList = document.querySelector('#product-list');
-    const productItem = document.createElement('tr');
-    productItem.innerHTML = `<td>${name}</td><td>$${price}</td><td>${quantity}</td>`;
-    productList.appendChild(productItem);
-    const toast= document.querySelector('.toast');
+    document.querySelector('.toast').style.display = 'block';
     setTimeout(() => {
-    toast.style.display = "block";
-    }, 1000);
+      document.querySelector('.toast').style.display = 'none';
+    }, 2000);
 
-    // Update header count
-    document.querySelector('.products-number').textContent = productManager.getProductsNumber();
-
-    // Clear inputs
     productNameInput.value = '';
     productPriceInput.value = '';
     productQuantityInput.value = '';
   }
 }
 
-// Handle customer form
+// Add customer
 document.querySelector('#add-customer-form').addEventListener('submit', function (e) {
   e.preventDefault();
 
@@ -137,16 +184,8 @@ document.querySelector('#add-customer-form').addEventListener('submit', function
 
   if (name && company && email && phone) {
     customerManager.addCustomer(name, company, email, phone);
+    customerManager.loadCustomers();
 
-    const customerList = document.querySelector('#customer-list');
-    const customerItem = document.createElement('tr');
-    customerItem.innerHTML = `<td>${name}</td><td>${company}</td><td>${email}</td><td>${phone}</td><td>—</td>`;
-    customerList.appendChild(customerItem);
-
-    // Update header count
-    document.querySelector('.customers-number').textContent = customerManager.getCustomersNumber();
-
-    // Clear inputs
     customerNameInput.value = '';
     companyInput.value = '';
     customerEmailInput.value = '';
@@ -154,14 +193,31 @@ document.querySelector('#add-customer-form').addEventListener('submit', function
   }
 });
 
+// Add income
+document.querySelector('#add-income-form').addEventListener('submit', function (e) {
+  e.preventDefault();
 
-// Attach product form handler
+  const product = incomeProductInput.value.trim();
+  const price = parseFloat(incomePriceInput.value);
+  const quantity = parseInt(incomeQuantityInput.value);
+
+  if (product && !isNaN(price) && !isNaN(quantity)) {
+    incomeManager.addSale(product, price, quantity);
+    incomeManager.loadIncomes();
+
+    incomeProductInput.value = '';
+    incomePriceInput.value = '';
+    incomeQuantityInput.value = '';
+  }
+});
+
+// Add product submit
 document.querySelector('#add-product-form').addEventListener('submit', function (e) {
   e.preventDefault();
   addProduct();
 });
 
-// Fix sidebar toggle
+// Sidebar toggles
 function expand() {
   sidebar.style.left = "0px";
 }
@@ -170,14 +226,22 @@ function close() {
 }
 closeBtn.addEventListener('click', close);
 
-// Toggle sections
-productsBtn.addEventListener('click', function () {
+// Navigation toggles
+productsBtn.addEventListener('click', () => {
   products.style.display = "block";
   customers.style.display = "none";
+  incomeSection.style.display = "none";
   close();
 });
-customersBtn.addEventListener('click', function () {
+customersBtn.addEventListener('click', () => {
   products.style.display = "none";
   customers.style.display = "block";
+  incomeSection.style.display = "none";
+  close();
+});
+incomeBtn.addEventListener('click', () => {
+  products.style.display = "none";
+  customers.style.display = "none";
+  incomeSection.style.display = "block";
   close();
 });

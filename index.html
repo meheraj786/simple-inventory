@@ -64,6 +64,14 @@
             <button type="submit">Add Customer</button>
           </form>
         </div>
+        <div class="income-add">
+          <h3>Add Income</h3>
+          <form id="add-income-form">
+            <input type="text" id="income-product-name" placeholder="Product Name" required>
+            <input type="number" id="income-price" placeholder="Price" required>
+            <input type="number" id="income-quantity" placeholder="Quantity" required>
+            <button type="submit" class="saleAdd">Add Income</button>
+          </form>
       </div>
     </div>
     <div id="products">
@@ -79,11 +87,7 @@
         <tbody id="product-list">
           <!-- Product rows will be inserted here -->
           <!-- sample products  -->
-          <tr>
-            <td>Product 1</td>
-            <td>$10</td>
-            <td>100</td>
-          </tr>
+
         </tbody>
       </table>
     </div>
@@ -102,14 +106,27 @@
         <tbody id="customer-list">
           <!-- Product rows will be inserted here -->
           <!-- sample products  -->
-          <tr>
-            <td>Customer 1</td>
-            <td>Comp</td>
-            <td>comp@mal.com</td>
-            <td>973872035</td>
-            <td>10</td>
-          </tr>
+
           
+        </tbody>
+      </table>
+    </div>
+    <div id="income">
+      <h2>Income</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total Income</th>
+          </tr>
+        </thead>
+        <tbody id="income-list">
+          <!-- Product rows will be inserted here -->
+          <!-- sample products  -->
+          
+
         </tbody>
       </table>
     </div>
