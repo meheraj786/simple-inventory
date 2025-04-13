@@ -113,7 +113,8 @@ class Income {
 
 class IncomeManager {
   constructor() {
-    this.incomes = JSON.parse(localStorage.getItem('incomes')) || [];
+    const storedIncomes = JSON.parse(localStorage.getItem('incomes')) || [];
+    this.incomes = storedIncomes.map(i => new Income(i.product, i.price, i.quantity)); // ✅ FIXED
   }
 
   addSale(product, price, quantity) {
@@ -122,22 +123,22 @@ class IncomeManager {
     this.saveToLocalStorage();
   }
 
-  saveToLocalStorage() {
-    localStorage.setItem('incomes', JSON.stringify(this.incomes));
-  }
-
   loadIncomes() {
     const incomeList = document.querySelector('#income-list');
     let totalIncome = 0;
     incomeList.innerHTML = '';
     this.incomes.forEach(income => {
       const incomeItem = document.createElement('tr');
-      const total = income.getTotal();
+      const total = income.getTotal(); // ✅ Will work now
       totalIncome += total;
       incomeItem.innerHTML = `<td>${income.product}</td><td>$${income.price}</td><td>${income.quantity}</td><td>$${total}</td>`;
       incomeList.appendChild(incomeItem);
     });
     document.querySelector('.income').textContent = `$${totalIncome}`;
+  }
+
+  saveToLocalStorage() {
+    localStorage.setItem('incomes', JSON.stringify(this.incomes));
   }
 }
 
@@ -153,6 +154,7 @@ document.addEventListener('DOMContentLoaded', function () {
   incomeManager.loadIncomes();
 });
 
+// Add Product
 function addProduct() {
   const name = productNameInput.value.trim();
   const price = parseFloat(productPriceInput.value);
@@ -173,7 +175,7 @@ function addProduct() {
   }
 }
 
-// Add customer
+// Add Customer
 document.querySelector('#add-customer-form').addEventListener('submit', function (e) {
   e.preventDefault();
 
@@ -193,7 +195,7 @@ document.querySelector('#add-customer-form').addEventListener('submit', function
   }
 });
 
-// Add income
+// Add Income
 document.querySelector('#add-income-form').addEventListener('submit', function (e) {
   e.preventDefault();
 
@@ -211,13 +213,13 @@ document.querySelector('#add-income-form').addEventListener('submit', function (
   }
 });
 
-// Add product submit
+// Add Product Submit
 document.querySelector('#add-product-form').addEventListener('submit', function (e) {
   e.preventDefault();
   addProduct();
 });
 
-// Sidebar toggles
+// Sidebar Toggle
 function expand() {
   sidebar.style.left = "0px";
 }
@@ -226,7 +228,7 @@ function close() {
 }
 closeBtn.addEventListener('click', close);
 
-// Navigation toggles
+// Navigation Buttons
 productsBtn.addEventListener('click', () => {
   products.style.display = "block";
   customers.style.display = "none";
