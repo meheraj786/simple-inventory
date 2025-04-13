@@ -140,10 +140,7 @@ h2{
 h3{
   margin: 10px 0;
 }
-#products{
-  display: none;
-}
-#customers{
+#products, #income, #customers{
   display: none;
 }
 table{
