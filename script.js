@@ -114,7 +114,7 @@ class Income {
 class IncomeManager {
   constructor() {
     const storedIncomes = JSON.parse(localStorage.getItem('incomes')) || [];
-    this.incomes = storedIncomes.map(i => new Income(i.product, i.price, i.quantity)); // ✅ FIXED
+    this.incomes = storedIncomes.map(i => new Income(i.product, i.price, i.quantity));
   }
 
   addSale(product, price, quantity) {
@@ -129,7 +129,7 @@ class IncomeManager {
     incomeList.innerHTML = '';
     this.incomes.forEach(income => {
       const incomeItem = document.createElement('tr');
-      const total = income.getTotal(); // ✅ Will work now
+      const total = income.getTotal();
       totalIncome += total;
       incomeItem.innerHTML = `<td>${income.product}</td><td>$${income.price}</td><td>${income.quantity}</td><td>$${total}</td>`;
       incomeList.appendChild(incomeItem);
