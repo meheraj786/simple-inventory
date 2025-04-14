@@ -39,6 +39,9 @@ button{
   color: var(--primary);
   cursor: pointer;
 }
+#header{
+  margin-top: 100px;
+}
 button:hover{
   background-color: var(--primary);
   color: #fff;
@@ -88,6 +91,7 @@ h1{
   color: white;
   transition: all 0.5s ease;
 }
+
 #sidebar-collaps{
   width: auto;
   padding: 20px;
@@ -101,6 +105,9 @@ h1{
 .active{
   left: 0;
 }
+.products-add-dashboard{
+  padding-bottom: 50px;
+}
 #sidebar ul{
   display: flex;
   flex-direction: column;
@@ -109,11 +116,12 @@ h1{
 }
 #sidebar ul li{
   padding: 20px;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
   background-color: var(--primary);
   border-radius: 5px;
   cursor: pointer;
+  border-bottom: 1px solid #a490f0;
 }
 #sidebar ul li:hover{
   background-color: var(--light-green);
@@ -132,6 +140,7 @@ h1{
 }
 #dashboard{
   padding: 100px 0px;
+  padding-top: 50px;
 }
 h2{
   margin: 10px 0;
@@ -142,6 +151,7 @@ h3{
 }
 #products, #income, #customers{
   display: none;
+  margin-top: 50px;
 }
 table{
   margin-top: 20px;
