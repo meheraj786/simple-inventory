@@ -156,3 +156,8 @@ table{
   border-radius: 10px;
   display: none;
 }
+tr button{
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: transparent;
+}
