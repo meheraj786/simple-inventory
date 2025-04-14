@@ -19,7 +19,8 @@ const customerNameInput = document.querySelector('#customer-name');
 const incomeProductInput = document.querySelector('#income-product-name');
 const incomePriceInput = document.querySelector('#income-price');
 const incomeQuantityInput = document.querySelector('#income-quantity');
-const trashIcon= '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M20 5a1 1 0 1 1 0 2h-1l-.003.071l-.933 13.071A2 2 0 0 1 16.069 22H7.93a2 2 0 0 1-1.995-1.858l-.933-13.07L5 7H4a1 1 0 0 1 0-2zm-3.003 2H7.003l.928 13h8.138zM14 2a1 1 0 1 1 0 2h-4a1 1 0 0 1 0-2z"/></g></svg>'
+
+const trashIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M9 3v1H4v2h1v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1V4h-5V3zm2 2h2v1h-2zm5 3v12H8V8z"/></svg>';
 
 class Product {
   constructor(name, price, quantity) {
@@ -38,6 +39,18 @@ class Customer {
   }
 }
 
+class Income {
+  constructor(product, price, quantity) {
+    this.product = product;
+    this.price = price;
+    this.quantity = quantity;
+  }
+
+  getTotal() {
+    return this.price * this.quantity;
+  }
+}
+
 class ProductManager {
   constructor() {
     this.products = JSON.parse(localStorage.getItem('products')) || [];
@@ -47,6 +60,12 @@ class ProductManager {
     const product = new Product(name, price, quantity);
     this.products.push(product);
     this.saveToLocalStorage();
+  }
+
+  deleteProduct(index) {
+    this.products.splice(index, 1);
+    this.saveToLocalStorage();
+    this.loadProducts();
   }
 
   getProductsNumber() {
@@ -60,9 +79,13 @@ class ProductManager {
   loadProducts() {
     const productList = document.querySelector('#product-list');
     productList.innerHTML = '';
-    this.products.forEach(product => {
+    this.products.forEach((product, index) => {
       const productItem = document.createElement('tr');
-      productItem.innerHTML = `<td>${product.name}</td><td>$${product.price}</td><td>${product.quantity}</td><button onclick="delet(this)">${trashIcon}</button>`;
+      productItem.innerHTML = `
+        <td>${product.name}</td>
+        <td>$${product.price}</td>
+        <td>${product.quantity}</td>
+        <td><button onclick="productManager.deleteProduct(${index})">${trashIcon}</button></td>`;
       productList.appendChild(productItem);
     });
     document.querySelector('.products-number').textContent = this.getProductsNumber();
@@ -80,6 +103,12 @@ class CustomerManager {
     this.saveToLocalStorage();
   }
 
+  deleteCustomer(index) {
+    this.customers.splice(index, 1);
+    this.saveToLocalStorage();
+    this.loadCustomers();
+  }
+
   getCustomersNumber() {
     return this.customers.length;
   }
@@ -91,29 +120,18 @@ class CustomerManager {
   loadCustomers() {
     const customerList = document.querySelector('#customer-list');
     customerList.innerHTML = '';
-    this.customers.forEach(customer => {
+    this.customers.forEach((customer, index) => {
       const customerItem = document.createElement('tr');
-      customerItem.innerHTML = `<td>${customer.name}</td><td>${customer.company}</td><td>${customer.email}</td><td>${customer.phone}</td><button onclick="delet(this)">${trashIcon}</button>`;
+      customerItem.innerHTML = `
+        <td>${customer.name}</td>
+        <td>${customer.company}</td>
+        <td>${customer.email}</td>
+        <td>${customer.phone}</td>
+        <td><button onclick="customerManager.deleteCustomer(${index})">${trashIcon}</button></td>`;
       customerList.appendChild(customerItem);
     });
     document.querySelector('.customers-number').textContent = this.getCustomersNumber();
   }
-}
-
-class Income {
-  constructor(product, price, quantity) {
-    this.product = product;
-    this.price = price;
-    this.quantity = quantity;
-  }
-
-  getTotal() {
-    return this.price * this.quantity;
-  }
-}
-
-function delet(item){
-  item.parentElement.remove()
 }
 
 class IncomeManager {
@@ -128,22 +146,33 @@ class IncomeManager {
     this.saveToLocalStorage();
   }
 
-  loadIncomes() {
-    const incomeList = document.querySelector('#income-list');
-    let totalIncome = 0;
-    incomeList.innerHTML = '';
-    this.incomes.forEach(income => {
-      const incomeItem = document.createElement('tr');
-      const total = income.getTotal();
-      totalIncome += total;
-      incomeItem.innerHTML = `<td>${income.product}</td><td>$${income.price}</td><td>${income.quantity}</td><td>$${total}</td><button onclick="delet(this)">${trashIcon}</button>`;
-      incomeList.appendChild(incomeItem);
-    });
-    document.querySelector('.income').textContent = `$${totalIncome}`;
+  deleteIncome(index) {
+    this.incomes.splice(index, 1);
+    this.saveToLocalStorage();
+    this.loadIncomes();
   }
 
   saveToLocalStorage() {
     localStorage.setItem('incomes', JSON.stringify(this.incomes));
+  }
+
+  loadIncomes() {
+    const incomeList = document.querySelector('#income-list');
+    let totalIncome = 0;
+    incomeList.innerHTML = '';
+    this.incomes.forEach((income, index) => {
+      const total = income.getTotal();
+      totalIncome += total;
+      const incomeItem = document.createElement('tr');
+      incomeItem.innerHTML = `
+        <td>${income.product}</td>
+        <td>$${income.price}</td>
+        <td>${income.quantity}</td>
+        <td>$${total}</td>
+        <td><button onclick="incomeManager.deleteIncome(${index})">${trashIcon}</button></td>`;
+      incomeList.appendChild(incomeItem);
+    });
+    document.querySelector('.income').textContent = `$${totalIncome}`;
   }
 }
 
