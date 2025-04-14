@@ -61,7 +61,7 @@ class ProductManager {
     productList.innerHTML = '';
     this.products.forEach(product => {
       const productItem = document.createElement('tr');
-      productItem.innerHTML = `<td>${product.name}</td><td>$${product.price}</td><td>${product.quantity}</td>`;
+      productItem.innerHTML = `<td>${product.name}</td><td>$${product.price}</td><td>${product.quantity}</td><button onclick="delet(this)">Delete</button>`;
       productList.appendChild(productItem);
     });
     document.querySelector('.products-number').textContent = this.getProductsNumber();
@@ -92,7 +92,7 @@ class CustomerManager {
     customerList.innerHTML = '';
     this.customers.forEach(customer => {
       const customerItem = document.createElement('tr');
-      customerItem.innerHTML = `<td>${customer.name}</td><td>${customer.company}</td><td>${customer.email}</td><td>${customer.phone}</td><td>—</td>`;
+      customerItem.innerHTML = `<td>${customer.name}</td><td>${customer.company}</td><td>${customer.email}</td><td>${customer.phone}</td><button onclick="delet(this)">Delete</button>`;
       customerList.appendChild(customerItem);
     });
     document.querySelector('.customers-number').textContent = this.getCustomersNumber();
@@ -109,6 +109,10 @@ class Income {
   getTotal() {
     return this.price * this.quantity;
   }
+}
+
+function delet(item){
+  item.parentElement.remove()
 }
 
 class IncomeManager {
@@ -131,7 +135,7 @@ class IncomeManager {
       const incomeItem = document.createElement('tr');
       const total = income.getTotal();
       totalIncome += total;
-      incomeItem.innerHTML = `<td>${income.product}</td><td>$${income.price}</td><td>${income.quantity}</td><td>$${total}</td>`;
+      incomeItem.innerHTML = `<td>${income.product}</td><td>$${income.price}</td><td>${income.quantity}</td><td>$${total}</td><button onclick="delet(this)">Delete</button>`;
       incomeList.appendChild(incomeItem);
     });
     document.querySelector('.income').textContent = `$${totalIncome}`;
