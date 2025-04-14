@@ -221,6 +221,10 @@ document.querySelector('#add-customer-form').addEventListener('submit', function
   if (name && company && email && phone) {
     customerManager.addCustomer(name, company, email, phone);
     customerManager.loadCustomers();
+    document.querySelector('.toast').style.display = 'block';
+    setTimeout(() => {
+      document.querySelector('.toast').style.display = 'none';
+    }, 2000);
 
     customerNameInput.value = '';
     companyInput.value = '';
@@ -240,6 +244,10 @@ document.querySelector('#add-income-form').addEventListener('submit', function (
   if (product && !isNaN(price) && !isNaN(quantity)) {
     incomeManager.addSale(product, price, quantity);
     incomeManager.loadIncomes();
+    document.querySelector('.toast').style.display = 'block';
+    setTimeout(() => {
+      document.querySelector('.toast').style.display = 'none';
+    }, 2000);
 
     incomeProductInput.value = '';
     incomePriceInput.value = '';
