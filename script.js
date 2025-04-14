@@ -86,7 +86,7 @@ class ProductManager {
         <td>$${product.price}</td>
         <td>${product.quantity}</td>
         <td><button onclick="productManager.deleteProduct(${index})">${trashIcon}</button></td>`;
-      productList.appendChild(productItem);
+      productList.prepend(productItem);
     });
     document.querySelector('.products-number').textContent = this.getProductsNumber();
   }
@@ -128,7 +128,7 @@ class CustomerManager {
         <td>${customer.email}</td>
         <td>${customer.phone}</td>
         <td><button onclick="customerManager.deleteCustomer(${index})">${trashIcon}</button></td>`;
-      customerList.appendChild(customerItem);
+      customerList.prepend(customerItem);
     });
     document.querySelector('.customers-number').textContent = this.getCustomersNumber();
   }
@@ -160,9 +160,11 @@ class IncomeManager {
     const incomeList = document.querySelector('#income-list');
     let totalIncome = 0;
     incomeList.innerHTML = '';
+  
     this.incomes.forEach((income, index) => {
       const total = income.getTotal();
       totalIncome += total;
+  
       const incomeItem = document.createElement('tr');
       incomeItem.innerHTML = `
         <td>${income.product}</td>
@@ -170,10 +172,22 @@ class IncomeManager {
         <td>${income.quantity}</td>
         <td>$${total}</td>
         <td><button onclick="incomeManager.deleteIncome(${index})">${trashIcon}</button></td>`;
-      incomeList.appendChild(incomeItem);
+      incomeList.prepend(incomeItem);
     });
+  
+    // Display sum in .income
     document.querySelector('.income').textContent = `$${totalIncome}`;
+  
+    // Add a final row for Grand Total
+    const grandTotalRow = document.createElement('tr');
+    grandTotalRow.style.fontWeight = 'bold';
+    grandTotalRow.innerHTML = `
+      <td colspan="3" style="text-align:right;">Grand Total</td>
+      <td>$${totalIncome}</td>
+      <td></td>`;
+    incomeList.appendChild(grandTotalRow);
   }
+  
 }
 
 // Init
