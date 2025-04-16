@@ -191,7 +191,9 @@ tr button{
     flex-direction: column;
   }
   #sidebar-collaps{
-    display: none;
+    display: block;
+    height: auto;
+    position: absolute;
   }
   .bar{
     flex-direction: column;
